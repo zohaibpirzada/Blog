@@ -16,9 +16,9 @@
             <div class="d-flex gap-2">
                 {% if user.is_authenticated %}
                 <div class="dropdown">
-                    <div class="px-3 text-light py-2 dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    <div class="text-light btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <img src="{% static 'image/profile.webp' %} " class="rounded-circle object-fit-cover me-2" width="40px" alt="">
+                        <img src="{% static 'image/profile.webp' %} " class="rounded-circle object-fit-cover me-2" width="35px" alt="">
                         {{user.username|capfirst}}
                     </div>
                     <ul class="dropdown-menu dropdown-menu-lg-end">
@@ -26,12 +26,12 @@
                         <li><a class="dropdown-item" href="#">Edit Profile</a></li>
                         <li><a class="dropdown-item" href="#">My Blog</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                     </ul>
                 </div>
                 {% else %}
-                <button class="btn btn-outline-light">Login</button>
-                <button class="btn px-3 btn-secondary">Sign</button>
+                <button class="btn py-2 btn-outline-light">Login</button>
+                <button class="btn px-3 py-2 btn-secondary">Sign</button>
                 {% endif %}
             </div>
         </div>
