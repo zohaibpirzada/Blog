@@ -39,6 +39,7 @@ def user_sign(request):
             form = RegistrationForm(request.POST or None)
             if form.is_valid():
                 form.save()
+                login(request, form)
                 return redirect('index')
         else:
             form = RegistrationForm()
