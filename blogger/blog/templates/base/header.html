@@ -2,10 +2,12 @@
     .none2 {
         display: none !important;
     }
+
     @media screen and (max-width:982px) {
         .none {
             display: none !important;
         }
+
         .none2 {
             display: flex !important;
         }
@@ -13,7 +15,7 @@
 </style>
 {% load static %}
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary px-3 mb-2 sticky-top" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg bg-body-tertiary px-3 mb-2 sticky-top " data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'index' %}"><svg width="50" height="50" viewBox="0 0 130 130" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
@@ -23,35 +25,36 @@
                 <path d="M37.0532 38.5424L52.0689 26.1302" stroke="white" stroke-width="3" />
             </svg>
         </a>
-        <div class="d-flex">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="d-flex gap-2 none2">
-            {% if user.is_authenticated %}
-            <div class="dropdown">
-                <div class="text-light btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+        <div class="d-flex gap-2 ">
+            <div class="d-flex gap-2 none2">
+                {% if user.is_authenticated %}
+                <div class="dropdown">
+                    <div class="text-light btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                    <img src="{% static 'image/profile.webp' %} " class="rounded-circle object-fit-cover me-2"
-                        width="35px" alt="">
-                    {{user.username|capfirst}}
+                        <img src="{{request.user.profile.profile_pic.url}} " class="rounded-circle object-fit-cover me-2"
+                            width="35px" height="35px" alt="{{request.user.username}}" style="object-position: 0% 0%;">
+                            {{user.username|capfirst}}
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-lg-end">
+                        <li><a class="dropdown-item" href="#">Dashboard</a></li>
+                        <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+                        <li><a class="dropdown-item" href="#">My Blog</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
                 </div>
-                <ul class="dropdown-menu dropdown-menu-lg-end">
-                    <li><a class="dropdown-item" href="#">Dashboard</a></li>
-                    <li><a class="dropdown-item" href="#">Edit Profile</a></li>
-                    <li><a class="dropdown-item" href="#">My Blog</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-                </ul>
+                <button class="navbar-toggler border border-0" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn py-2 btn-outline-light">Login</a>
+                <a href="{% url 'login' %}" class="btn px-3 py-2 btn-secondary">Sign</a>
+                {% endif %}
             </div>
-            {% else %}
-            <button class="btn py-2 btn-outline-light">Login</button>
-            <button class="btn px-3 py-2 btn-secondary">Sign</button>
-            {% endif %}
-        </div>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -64,8 +67,8 @@
                 <div class="dropdown">
                     <div class="text-light btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <img src="{% static 'image/profile.webp' %} " class="rounded-circle object-fit-cover me-2"
-                            width="35px" alt="">
+                        <img src="{{request.user.profile.profile_pic.url}} " class="rounded-circle object-fit-cover me-2"
+                            width="35px" height="35px{{request.user.username}}" style="object-position: 0% 0%;" alt="">
                         {{user.username|capfirst}}
                     </div>
                     <ul class="dropdown-menu dropdown-menu-lg-end">
@@ -79,8 +82,8 @@
                     </ul>
                 </div>
                 {% else %}
-                <button class="btn py-2 btn-outline-light">Login</button>
-                <button class="btn px-3 py-2 btn-secondary">Sign</button>
+                <a href="{% url 'login' %}" class="btn py-2 btn-outline-light">Login</a>
+                <a href="{% url 'login' %}" class="btn px-3 py-2 btn-secondary">Sign</a>
                 {% endif %}
             </div>
         </div>
