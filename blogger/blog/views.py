@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages 
 from django.contrib.auth.forms import UserCreationForm
-from .form import RegistrationForm
+from .form import RegistrationForm, ProfilePicForm
+from django.contrib.auth.models import User
+from .models import Profile
 
 def index(request):
     return render(request, 'index.html')
@@ -48,3 +50,14 @@ def user_sign(request):
         else:
             form = RegistrationForm()
         return render(request, 'sigin.html', {'form': form})
+    
+def edit_profile(request):
+    current_user = get_object_or_404(User, id=request.user.id)
+    current_user_profile = get_object_or_404(Profile, user__id=request.user.id)
+    if request.method == 'POST':
+        image_form = ProfilePicForm(request.POST or None, request.FILES or None, instance=current_user_profile)
+        if image_form.is_valid():
+            image_form.save()
+    else:
+        image_form = ProfilePicForm(instance=current_user_profile)
+    return render(request, 'edit_profile.html', {'image_form': image_form})

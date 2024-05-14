@@ -1,5 +1,6 @@
 from typing import Any
 from django import forms
+from .models import Profile
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -25,3 +26,9 @@ class RegistrationForm(UserCreationForm):
         self.fields['password2'].label = ''
         self.fields['password2'].widget.attrs['class'] = 'form-control'
         self.fields['password2'].widget.attrs['placeholder'] = 'Conform Password'
+
+class ProfilePicForm(forms.ModelForm):
+    profile_pic = forms.ImageField(label='', widget=forms.FileInput(attrs={'class' : 'form-control', 'id' : 'image'}))
+    class Meta:
+        model = Profile
+        fields = ['profile_pic']
