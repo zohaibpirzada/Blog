@@ -39,8 +39,12 @@ def user_sign(request):
             form = RegistrationForm(request.POST or None)
             if form.is_valid():
                 form.save()
-                login(request, form)
-                return redirect('index')
+                username = request.POST['username']
+                password = request.POST['password1']
+                new_user = authenticate(username=username, password=password)
+                if new_user != None:
+                    login(request, new_user)
+                    return redirect('index')
         else:
             form = RegistrationForm()
         return render(request, 'sigin.html', {'form': form})
