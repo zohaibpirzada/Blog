@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages 
+from django.contrib.auth.forms import UserCreationForm
+from .form import RegistrationForm
 
 def index(request):
     return render(request, 'index.html')
@@ -27,3 +29,17 @@ def user_login(request):
                 messages.success(request, f'User Not Found')
 
         return render(request, 'login.html')
+
+def user_sign(request):
+    if request.user.is_authenticated:
+        messages.success(request, 'You are already logged!')
+        return redirect('index')
+    else:
+        if request.method == 'POST':
+            form = RegistrationForm(request.POST or None)
+            if form.is_valid():
+                form.save()
+                return redirect('index')
+        else:
+            form = RegistrationForm()
+        return render(request, 'sigin.html', {'form': form})
