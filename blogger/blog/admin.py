@@ -14,4 +14,4 @@ class user_up(admin.ModelAdmin):
     inlines = [Pro]
 
 admin.site.register(User,user_up)
-# admin.site.register(Profile)
+admin.site.register([Category, Blog])

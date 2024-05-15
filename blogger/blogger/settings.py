@@ -19,7 +19,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'blog'
+    'blog',
+    'ckeditor'
 ]
 
 MIDDLEWARE = [
@@ -49,6 +50,8 @@ TEMPLATES = [
         },
     },
 ]
+CKEDITOR_FILENAME_GENERATOR = 'utils.get_filename'
+
 
 WSGI_APPLICATION = "blogger.wsgi.application"
 
@@ -94,6 +97,7 @@ STATIC_URL = "static/"
 
 MEDIA_ROOT = 'media'
 MEDIA_URL = 'media/'
+CKEDITOR_UPLOAD_PATH = "media/ckeditor"
 
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
