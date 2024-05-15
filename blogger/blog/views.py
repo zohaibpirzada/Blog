@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages 
 from django.contrib.auth.forms import UserCreationForm
-from .form import RegistrationForm, ProfilePicForm
+from .form import RegistrationForm, ProfilePicForm, ProfileUpdateForm
 from django.contrib.auth.models import User
 from .models import Profile
 
@@ -56,8 +56,13 @@ def edit_profile(request):
     current_user_profile = get_object_or_404(Profile, user__id=request.user.id)
     if request.method == 'POST':
         image_form = ProfilePicForm(request.POST or None, request.FILES or None, instance=current_user_profile)
-        if image_form.is_valid():
+        form = ProfileUpdateForm(request.POST or None, request.FILES or None, instance=current_user)
+        if image_form.is_valid() and form.is_valid():
             image_form.save()
+            form.save()
+            messages.success(request, f"{current_user.username}'s Profile Has Been Updated!!")
+            return redirect('index')
     else:
         image_form = ProfilePicForm(instance=current_user_profile)
-    return render(request, 'edit_profile.html', {'image_form': image_form})
+        form = ProfileUpdateForm(instance=current_user)
+    return render(request, 'edit_profile.html', {'image_form': image_form, 'form' : form})

@@ -1,18 +1,39 @@
 {% extends 'base/base.html' %}
 
-{% block title %}{{user.username}}'s Profile-edit
-{% endblock title %}
+{% block title %}{{user.username|capfirst}}'s Profile-edit{% endblock title %}
 {% block content %}
 <div class="container-sm mt-2">
     <div class="row">
         <div class="col-md-6 offset-md-3 border px-3 py-4 rounded">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <label for="image" style="width: fit-content; cursor: pointer;" class="mx-auto d-flex flex-column align-items-center justify-content-center"><img src="{{request.user.profile.profile_pic.url}}" class="rounded-circle object-fit-cover border border-dark border-2" style="object-position: 0% 0%;" width="180px" height="180px"  alt="{{request.user.username}}">
-                <b>Currently</b>
+                <label for="image" style="width: fit-content; cursor: pointer;"
+                    class="mx-auto d-flex flex-column align-items-center justify-content-center"><img
+                        src="{{request.user.profile.profile_pic.url}}"
+                        class="rounded-circle object-fit-cover border border-dark border-2"
+                        style="object-position: 0% 0%;" width="180px" height="180px" alt="{{request.user.username}}">
+                    <b>Currently</b>
                 </label>
                 {{image_form.as_p}}
-                <button type="submit" class="btn btn-secondary">Update</button>
+                <div class="my-2">
+                    {{form.username}}
+                </div>
+                <div class="my-2">
+                    {{form.email}}
+                </div>
+                <div class="my-2">
+                    <div class="row">
+                        <div class="col">
+                            {{form.first_name}}
+                        </div>
+                        <div class="col">
+                            {{form.last_name}}
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-secondary">Update</button>
+                </div>
             </form>
         </div>
     </div>
