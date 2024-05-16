@@ -1,0 +1,74 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Add Blog
+{% endblock title %}
+{% block content %}
+<!-- Modal -->
+<div class="modal fade" id="Add-Category" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <form action="{% url 'add_cat' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    {{cat_form.as_p}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                    data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add Categories</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container-sm mt-2">
+    <div class="row">
+        <div class="col-md-6 offset-md-3 border px-3 py-4 rounded">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <h1>Add Blog</h1>
+                <!-- <div class="my-2">
+
+                    <select class="form-select" name="cate">
+                        <option>Select Categories</option>
+                        {% for c in cat %}
+                        <option value="{{c.id}}">{{c}}</option>
+                        {% endfor %}
+                    </select>
+                </div> -->
+                <div class="row my-2 align-items-center">
+                    <div class="col">
+                        {{form.category}}
+                    </div>
+                    <div class="col-4">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#Add-Category">
+                            Add Category
+                        </button>
+
+                    </div>
+                </div>
+                <div class="my-2">
+                    {{form.title}}
+                </div>
+                <div class="my-2">
+                    {{form.thumbnail_image}}
+                </div>
+                <div class="my-2">
+                    {{form.body}}
+                </div>
+                {{form.media}}
+                <button type="submit" class="btn btn-outline-primary">Publish</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -3,9 +3,9 @@ from django.http import HttpResponse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages 
 from django.contrib.auth.forms import UserCreationForm
-from .form import RegistrationForm, ProfilePicForm, ProfileUpdateForm
+from .form import RegistrationForm, ProfilePicForm, ProfileUpdateForm, Add_blog, CategoryForm
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Category
 
 def index(request):
     return render(request, 'index.html')
@@ -55,14 +55,45 @@ def edit_profile(request):
     current_user = get_object_or_404(User, id=request.user.id)
     current_user_profile = get_object_or_404(Profile, user__id=request.user.id)
     if request.method == 'POST':
+        username=request.POST['username']
         image_form = ProfilePicForm(request.POST or None, request.FILES or None, instance=current_user_profile)
         form = ProfileUpdateForm(request.POST or None, request.FILES or None, instance=current_user)
         if image_form.is_valid() and form.is_valid():
             image_form.save()
-            form.save()
+            if username != '':
+                form.save()
+            else:
+                messages.success(request, f"Put the Username!! ")
+                print(request.META.get('HTTPS_REFERER'))
+                return redirect('edit_profile')
             messages.success(request, f"{current_user.username}'s Profile Has Been Updated!!")
             return redirect('index')
     else:
         image_form = ProfilePicForm(instance=current_user_profile)
         form = ProfileUpdateForm(instance=current_user)
     return render(request, 'edit_profile.html', {'image_form': image_form, 'form' : form})
+
+def add_blog(request):
+    current_user = get_object_or_404(User, id=request.user.id)
+    cat = Category.objects.all()
+    if request.method == 'POST':
+        form = Add_blog(request.POST or None, request.FILES or None)
+        cat_form = CategoryForm(request.POST or None, request.FILES or None)
+        if form.is_valid():
+            post =form.save(commit=False)  
+            post.user = request.user
+            post.save()  
+            return redirect('index')
+    else:
+        form = Add_blog()
+        cat_form = CategoryForm()
+    return render(request, 'add_blog.html', {'form' : form, 'cat': cat, 'cat_form' : cat_form})
+
+def Add_cat(request):
+    if request.method == 'POST':
+        cat_form = CategoryForm(request.POST or None, request.FILES or None)
+        if cat_form.is_valid():
+            post=cat_form.save(commit=False)
+            post.user = request.user
+            post.save()
+            return redirect(request.META.get('HTTP_REFERER'))

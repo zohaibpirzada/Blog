@@ -1,6 +1,6 @@
 from typing import Any
 from django import forms
-from .models import Profile
+from .models import Profile, Blog, Category
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -37,17 +37,28 @@ class ProfileUpdateForm(forms.ModelForm):
         model = User
         fields = ['username', 'email', 'first_name', 'last_name']
 
-    # def __init__(self, *args: Any, **kwargs: Any):
-    #     super(ProfileUpdateForm, self).__init__(*args, **kwargs)
-
-    #     self.fields['username'].label = ''
-    #     self.fields['username'].widget.attrs['class'] = 'form-control'
-    #     self.fields['username'].widget.attrs['placeholder'] = 'Username'
-    #     self.fields['username'].help_text = '<span class="form-text">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span>'
-
 
 class ProfilePicForm(forms.ModelForm):
     profile_pic = forms.ImageField(label='', widget=forms.FileInput(attrs={'class' : 'form-control', 'id' : 'image'}))
     class Meta:
         model = Profile
         fields = ['profile_pic']
+
+class Add_blog(forms.ModelForm):
+    title = forms.CharField(label='', widget=forms.TextInput(attrs={'class' : 'form-control', 'placeholder' : 'Post Title'}), required=True)
+    thumbnail_image = forms.ImageField(label='', widget=forms.FileInput(attrs={'class' : 'form-control', 'id' : 'image'}))
+    
+    class Meta:
+        model = Blog
+        fields = ['title',"category", 'thumbnail_image', 'body']
+        labels = {'category': '', 'body' : ''}
+        # exclude = ['user',]
+        widgets = {'category': forms.Select(attrs={'class': 'form-select'}),}
+        
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name']
+        # exclude = ['user',]
+        labels = {'name' : ''}
+        widgets = {'name' : forms.TextInput(attrs={'class' : 'form-control', 'placeholder' : 'Add Category'})}
