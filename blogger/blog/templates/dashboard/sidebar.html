@@ -1,0 +1,70 @@
+<div class="w-100 text-center">
+    <img src="{{request.user.profile.profile_pic.url}}" width="100px" height="100px"
+        class="rounded-circle object-fit-cover" style="object-position: 0% 0%;" alt="">
+</div>
+<div class="w-100 text-center mt-2 ">
+    <strong>{{request.user.username|capfirst}}</strong>
+    <p class="form-text m-0">{{request.user.email}}</p>
+</div>
+<hr>
+<div class="w-100 mt-2 ">
+    <div class="list-group rounded rounded-0 border ">
+        <!--Post Dropdown-->
+        <div class="btn-group dropend">
+            <div class="d-flex align-items-center justify-content-between btn dropdown-toggle rounded rounded-0"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Post
+            </div>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">All Post</a></li>
+                <hr class="dropdown-divider">
+                <li><a class="dropdown-item" href="#">My Post</a></li>
+                <li><a class="dropdown-item">Add Post</a></li>
+            </ul>
+        </div>
+        <!--Post Dropdown end-->
+        <!-- hr -->
+        <hr class="m-0">
+        <!--Category Dorpdown-->
+        <div class="btn-group dropend">
+            <div class="d-flex align-items-center justify-content-between btn dropdown-toggle rounded rounded-0"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Category
+            </div>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Categories</a></li>
+                <li><a class="dropdown-item" href="#">Add Category</a></li>
+            </ul>
+        </div>
+        <!--Category Dorpdown end-->
+        <hr class="m-0">
+        <!--User Dorpdown-->
+        <div class="btn-group dropend">
+            <div class="d-flex align-items-center justify-content-between btn dropdown-toggle rounded rounded-0"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                User
+            </div>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Add User</a></li>
+                <li><a class="dropdown-item">All User</a></li>
+            </ul>
+        </div>
+        <!--User Dorpdown end-->
+        <hr class="m-0">
+        <!--Profile Dorpdown-->
+        <div class="btn-group dropend">
+            <div class="d-flex align-items-center justify-content-between btn dropdown-toggle rounded rounded-0"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Profile
+            </div>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">View Profile</a></li>
+                <li><a class="dropdown-item">Edit Profile</a></li>
+            </ul>
+        </div>
+        <!--Profile Dorpdown end-->
+        <hr class="m-0">
+        <div class="d-flex align-items-center justify-content-between btn rounded rounded-0">
+            Logout
+        </div>
+    </div>

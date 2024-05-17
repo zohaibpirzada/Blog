@@ -97,3 +97,11 @@ def Add_cat(request):
             post.user = request.user
             post.save()
             return redirect(request.META.get('HTTP_REFERER'))
+
+def dashboard(request):
+    user = get_object_or_404(User, id=request.user.id)
+    profile = get_object_or_404(Profile, user=user)
+    if profile.staff == 'Approved':
+        return render(request, 'dashboard.html')
+    else:
+        return redirect('index')

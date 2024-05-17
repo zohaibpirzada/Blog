@@ -36,7 +36,9 @@
                             {{user.username|capfirst}}
                     </div>
                     <ul class="dropdown-menu dropdown-menu-lg-end">
-                        <li><a class="dropdown-item" href="#">Dashboard</a></li>
+                        {%if request.user.profile.staff == 'Approved' %}
+                        <li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard </a></li>
+                        {% endif %}
                         <li><a class="dropdown-item" href="{% url 'edit' %}">Edit Profile</a></li>
                         <li><a class="dropdown-item" href="{% url 'add_blog' %}">Add Blog</a></li>
                         <li><a class="dropdown-item" href="#">My Categories</a></li>
@@ -74,7 +76,10 @@
                         {{user.username|capfirst}}
                     </div>
                     <ul class="dropdown-menu dropdown-menu-lg-end">
-                        <li><a class="dropdown-item" href="#">Dashboard</a></li>
+                        {%if request.user.profile.staff == 'Approved' %}
+                        <li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard </a></li>
+                        {% endif %}
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
                         <li><a class="dropdown-item" href="{% url 'edit' %}">Edit Profile</a></li>
                         <li><a class="dropdown-item" href="{% url 'add_blog' %}">Add Blog</a></li>
                         <li><a class="dropdown-item" href="#">My Categories</a></li>
