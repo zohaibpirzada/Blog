@@ -1,0 +1,36 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}All Categories{% endblock title %}
+
+
+{% block content %}
+{% for category in categories %}
+<div class="alert alert-warning" role="alert">
+    <div class="row">
+        <div class="col-auto"><img src="{{category.user.profile.profile_pic.url}}"
+                class="rounded-circle object-fit-cover" style="object-position: 0% 0%;" width="40px" height="40px"
+                alt=""></div>
+        <div class="col">
+            <div class="w-100 d-flex">
+                <div class="w-75">
+                    <strong>{{category.name|capfirst}}</strong> <small>{{category.user.username|capfirst}}</small>
+                </div>
+                <div class="w-75">
+                    <p>{{category.create_date|date:'Y/m/d H:i:s A'}} </p>
+                </div>
+            </div>
+            <hr class="m-0">
+            <div class="w-100 row">
+                <div class="col-auto form-text">Edit</div>
+                <div class="col-auto form-text">Preview</div>
+                {% if request.user.id == 1 %}
+                <div class="col-auto form-text text-danger">Delete</div>
+                {% elif request.user.id == category.user.id %}
+                <div class="col-auto form-text text-danger">Delete</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock content %}

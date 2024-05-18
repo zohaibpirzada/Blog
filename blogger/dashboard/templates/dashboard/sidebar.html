@@ -16,9 +16,9 @@
                 Post
             </div>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">All Post</a></li>
+                <li><a class="dropdown-item" href="{% url 'all_post' %}">All Post</a></li>
                 <hr class="dropdown-divider">
-                <li><a class="dropdown-item" href="#">My Post</a></li>
+                <li><a class="dropdown-item" href="{% url 'my_post' %}">My Post</a></li>
                 <li><a class="dropdown-item">Add Post</a></li>
             </ul>
         </div>
@@ -32,7 +32,7 @@
                 Category
             </div>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Categories</a></li>
+                <li><a class="dropdown-item" href="{% url 'all_categories' %}">Categories</a></li>
                 <li><a class="dropdown-item" href="#">Add Category</a></li>
             </ul>
         </div>
@@ -68,3 +68,4 @@
             Logout
         </div>
     </div>
+</div>
