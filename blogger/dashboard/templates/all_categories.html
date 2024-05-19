@@ -14,7 +14,7 @@
             <button type="submit" class="btn btn-outline-secondary">Filter</button>
         </form>
     </div>
-    <button class="btn btn-outline-secondary">Add Category</button>
+    <a href="{% url 'add_category' %}" class="btn btn-outline-secondary">Add Category</a>
 </div>
 {% for category in categories %}
 <div class="alert alert-warning" role="alert">
@@ -25,7 +25,11 @@
         <div class="col">
             <div class="w-100 d-flex">
                 <div class="w-75">
+                    {% if category.blog_set.count > 0 %}
+                    ({{category.blog_set.count}})  <strong>{{category.name|capfirst}}</strong> <small>{{category.user.username|capfirst}}</small>
+                    {% else %}
                     <strong>{{category.name|capfirst}}</strong> <small>{{category.user.username|capfirst}}</small>
+                    {% endif %}
                 </div>
                 <div class="w-75">
                     <p>{{category.create_date|date:'Y/m/d H:i:s A'}} </p>

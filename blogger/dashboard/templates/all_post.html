@@ -4,5 +4,31 @@
 
 
 {% block content %}
-<h1>All Post</h1>
+{% for post in all_post %}
+<div class="alert alert-warning" role="alert">
+    <div class="row">
+        <div class="col-auto"><img src="{{post.user.profile.profile_pic.url}}"
+                class="rounded-circle object-fit-cover" style="object-position: 0% 0%;" width="40px" height="40px"
+                alt=""></div>
+        <div class="col">
+            <div class="w-100 d-flex">
+                <div class="w-75">
+                    ({{post.category}})
+                    <strong>{{post.title|capfirst}}</strong> 
+                    <small> {{post.user.username|capfirst}}</small>
+                </div>
+                <div class="w-75">
+                    <p>{{post.pub_date|date:'Y/m/d H:i:s A'}} </p>
+                </div>
+            </div>
+            <hr class="m-0">
+            <div class="w-100 row">
+                <div class="col-auto form-text">Edit</div>
+                <div class="col-auto form-text">Preview</div>
+                <div class="col-auto form-text text-danger">Delete</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor  %}
 {% endblock content %}

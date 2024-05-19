@@ -1,0 +1,35 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Add Category{% endblock title %}
+{% block content %}
+
+<form method="post" class="row" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="col-8">
+        <div class="mb-3">
+            <label for="cat_name" class="form-label">Title</label>
+            {{form.name}}
+        </div>
+        <div class="mb-3">
+            <label for="cat_img" class="form-label">Category Image</label>
+            {{form.cat_image}}
+        </div>
+    </div>
+    <div class="col">
+        <div class="w-100 text-end">
+            <button type="submit" class="btn btn-outline-primary mb-2">Publish</button>
+        </div>
+        <div class="w-100">
+            <select name="cat_user" class="form-select" id="user">
+                <option value="{{request.user.id}}">{{request.user.username}}</option>
+                {% for u in users %}
+                <option value="{{u.id}}">{{u.username}}</option>
+                {% endfor %}
+            </select>
+            {{form.user}}
+        </div>
+    </div>
+</form>
+
+
+{% endblock content %}
