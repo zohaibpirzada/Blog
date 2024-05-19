@@ -31,4 +31,22 @@ def my_post(request):
     
 def all_categories(request):
     categories = Category.objects.order_by('-create_date')
+    if request.method == 'GET':
+        select = request.GET.get('filter')
+        if select == 'All':
+            categories = Category.objects.order_by('-create_date')
+        elif select != None:
+            categories = Category.objects.filter(user__username=select).order_by('-create_date')
+            print(select)
+        # elif select == '':
     return render(request, 'all_categories.html', {'categories' : categories})
+
+def delete_cat(request, cat_id):
+    category = get_object_or_404(Category, id=cat_id)
+    if request.user.id == category.user.id or request.user.id == 1:
+        category.delete()
+        return redirect(request.META.get('HTTP_REFERER'))
+    else:
+        messages.success(request,'That is not you category')
+        return redirect('all_categories')
+        # return redirect(request.META.get('HTTP_REFERER'))
