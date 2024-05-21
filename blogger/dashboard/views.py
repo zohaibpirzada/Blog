@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from blog.models import Profile, Category, Blog
 from .form import CategoryForm
+from blog.form import Add_blog, CategoryForm
 
 
 def dashboard(request):
@@ -37,6 +38,7 @@ def all_categories(request):
     profile = get_object_or_404(Profile, user=user)
     if profile.staff == 'Approved':
         categories = Category.objects.order_by('-create_date')
+        filter_user = User.objects.filter(profile__staff='Approved')
         if request.method == 'GET':
             select = request.GET.get('filter')
             if select == 'All':
@@ -45,7 +47,7 @@ def all_categories(request):
                 categories = Category.objects.filter(user__username=select).order_by('-create_date')
                 print(select)
             # elif select == '':
-        return render(request, 'all_categories.html', {'categories' : categories})
+        return render(request, 'all_categories.html', {'categories' : categories, "filter_user" : filter_user, 'select_user' : select})
     else:
         messages.success(request, 'Your are not team staff')
         return redirect('index')
@@ -65,7 +67,7 @@ def add_category(request):
     log_user = get_object_or_404(User, id=request.user.id)
     profile = get_object_or_404(Profile, user=log_user)
     if profile.staff == 'Approved':
-        user = User.objects.exclude(id=request.user.id).all()
+        user = User.objects.exclude(id=request.user.id).filter(profile__staff='Approved')
         if request.method == 'POST':
             cat_user = request.POST.get('cat_user')
             form = CategoryForm(request.POST or None, request.FILES or None)
@@ -80,4 +82,53 @@ def add_category(request):
     else:
         messages.success(request, 'Your are not team staff')
         return redirect('index')
+    
+def edit_category(request, cat_id):
+    log_user = get_object_or_404(User, id=request.user.id)
+    profile = get_object_or_404(Profile, user=log_user)
+    if profile.staff == 'Approved':
+        current_cat = Category.objects.get(id=cat_id)
+        user = User.objects.exclude(id=request.user.id).filter(profile__staff='Approved')
+        if request.method == 'POST':
+            cat_user = request.POST.get('cat_user')
+            form = CategoryForm(request.POST or None, request.FILES or None, instance=current_cat)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.user_id = cat_user
+                post.save()
+                return redirect('all_categories')
+        else:
+            form = CategoryForm(instance=current_cat)
+        return render(request, 'edit_category.html', {'users' : user, 'form' : form, 'cat' : current_cat})
+    else:
+        messages.success(request, 'Your are not team staff')
+        return redirect('index')
 
+def cat_set(request, cat_name):
+    post_get = Blog.objects.filter(category__name=cat_name.capitalize())
+    return render(request, 'cat_set.html', {'post' : post_get, "cat_name" : cat_name.capitalize()})
+
+
+def edit_post(request, post_id):
+    log_user = get_object_or_404(User, id=request.user.id)
+    profile = get_object_or_404(Profile, user=log_user)
+    if profile.staff == 'Approved':
+        current_cat = Blog.objects.get(id=post_id)
+        user = User.objects.exclude(id=request.user.id).filter(profile__staff='Approved')
+        if request.method == 'POST':
+            post_user = request.POST.get('select_onwer')
+            form = Add_blog(request.POST or None, request.FILES or None, instance=current_cat)
+            cat_form = CategoryForm(request.POST or None, request.FILES or None)
+            if form.is_valid():
+                post=form.save(commit=False)
+                post.user_id= post_user
+                post.save()
+                return redirect('all_post')
+        else:
+            form = Add_blog(instance=current_cat)
+            cat_form = CategoryForm(request.POST or None, request.FILES or None)
+
+        return render(request, 'edit_post.html', {'users' : user, 'form' : form, 'cat' : current_cat, 'cat_form' : cat_form})
+    else:
+        messages.success(request, 'Your are not team staff')
+        return redirect('index')

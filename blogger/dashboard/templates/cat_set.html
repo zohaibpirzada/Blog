@@ -1,30 +1,30 @@
 {% extends 'dashboard/base.html' %}
 
-{% block title %}All Post{% endblock title %}
+{% block title %}All posts{% endblock title %}
 
 
 {% block content %}
 
-{% for post in all_post %}
+<h1>{{cat_name}}</h1>
+{% for posts in post %}
 <div class="alert alert-warning" role="alert">
     <div class="row">
-        <div class="col-auto"><img src="{{post.user.profile.profile_pic.url}}"
+        <div class="col-auto"><img src="{{posts.user.profile.profile_pic.url}}"
                 class="rounded-circle object-fit-cover" style="object-position: 0% 0%;" width="40px" height="40px"
                 alt=""></div>
         <div class="col">
             <div class="w-100 d-flex">
                 <div class="w-75">
-                    ({{post.category}})
-                    <strong>{{post.title|capfirst}}</strong> 
-                    <small> {{post.user.username|capfirst}}</small>
+                    <strong>{{posts.title|capfirst}}</strong> 
+                    <small> {{posts.user.username|capfirst}}</small>
                 </div>
                 <div class="w-75">
-                    <p>{{post.pub_date|date:'Y/m/d H:i:s A'}} </p>
+                    <p>{{posts.pub_date|date:'Y/m/d H:i:s A'}} </p>
                 </div>
             </div>
             <hr class="m-0">
             <div class="w-100 row">
-                <div class="col-auto form-text"><a class="text-dark text-decoration-none" href="{% url 'edit_post' post.id %}">Edit</a></div>
+                <div class="col-auto form-text">Edit</div>
                 <div class="col-auto form-text">Preview</div>
                 <div class="col-auto form-text text-danger">Delete</div>
             </div>

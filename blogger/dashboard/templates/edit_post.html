@@ -4,14 +4,12 @@
 {% endblock title %}
 {% block content %}
 <!-- Modal -->
-<div class="modal fade" id="Add-Category" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="Add-Category" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{% url 'add_cat' %}" method="post">
                 {% csrf_token %}
@@ -19,56 +17,58 @@
                     {{cat_form.as_p}}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                    data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Add Categories</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<div class="container-sm mt-2">
-    <div class="row">
-        <div class="col-md-7 offset-md-3 border px-3 py-4 rounded">
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <h1>Add Post</h1>
-                <!-- <div class="my-2">
-
-                    <select class="form-select" name="cate">
-                        <option>Select Categories</option>
-                        {% for c in cat %}
-                        <option value="{{c.id}}">{{c}}</option>
-                        {% endfor %}
-                    </select>
-                </div> -->
+<div class="mt-2">
+    <form method="post" enctype="multipart/form-data">
+        <h1>Add Post</h1>
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-5">
+                <label for="image">
+                    <b>Currently</b>
+                    <img src="{{cat.thumbnail_image.url}}" width="100%" style="max-height: 350px;" class="object-fit-cover" alt="">
+                </label>
+                <div class="my-2">
+                    {{form.thumbnail_image}}
+                </div>
+            </div>
+            <div class="col-md-auto border px-3 py-4 rounded">
                 <div class="row my-2 align-items-center">
                     <div class="col">
                         {{form.category}}
                     </div>
-                    <div class="col-4">
+                    <div class="col-5 d-flex align-items-center justify-content-between">
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#Add-Category">
                             Add Category
                         </button>
-
+                        <select name="select_onwer" class="w-50 form-select" id="select">
+                            <option value="{{request.user.id}}">{{request.user|capfirst}}</option>
+                            {% for u in users %}
+                            <option value="{{u.id}}">{{u|capfirst}}</option>
+                            {% endfor %}
+                        </select>
+                    
                     </div>
                 </div>
                 <div class="my-2">
                     {{form.title}}
                 </div>
                 <div class="my-2">
-                    {{form.thumbnail_image}}
-                </div>
-                <div class="my-2">
                     {{form.body}}
                 </div>
                 {{form.media}}
                 <button type="submit" class="btn btn-outline-primary">Publish</button>
-            </form>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 
 {% endblock content %}
