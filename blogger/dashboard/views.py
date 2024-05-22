@@ -36,7 +36,8 @@ def my_post(request):
     user = get_object_or_404(User, id=request.user.id)
     profile = get_object_or_404(Profile, user=user)
     if profile.staff == 'Approved':
-        return render(request, 'my_post.html',)
+        my_post = Blog.objects.filter(user=request.user).order_by("-pub_date")
+        return render(request, 'my_post.html',{"my_post" : my_post})
     else:
         messages.success(request, 'Your are not team staff')
         return redirect('index')

@@ -4,5 +4,41 @@
 
 
 {% block content %}
-<h1>My Post</h1>
+
+<div class="w-100 text-end mb-2">
+    <a href="{% url 'add_blog' %}" class="btn btn-outline-secondary">Add Post</a>
+</div>
+{% for post in my_post %}
+<div class="alert alert-warning" role="alert">
+    <div class="row">
+        <div class="col-auto"><img src="{{post.user.profile.profile_pic.url}}"
+                class="rounded-circle object-fit-cover" style="object-position: 0% 0%;" width="40px" height="40px"
+                alt=""></div>
+        <div class="col">
+            <div class="w-100 d-flex">
+                <div class="w-75">
+                    ({{post.category}})
+                    <strong>{{post.title|capfirst}}</strong> 
+                    <small> {{post.user.username|capfirst}}</small>
+                </div>
+                <div class="w-75">
+                    <p>{{post.pub_date|date:'Y/m/d H:i:s A'}} </p>
+                </div>
+            </div>
+            <hr class="m-0">
+            <div class="w-100 row">
+                <div class="col-auto form-text"><a class="text-dark text-decoration-none" href="{% url 'edit_post' post.id %}">Edit</a></div>
+                <div class="col-auto form-text">Preview</div>
+                <div class="col-auto form-text text-danger">Delete</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% empty %}
+<div class="w-100 text-center">
+    <h1 style="text-transform:capitalize;">
+        {{select}}'s not have any Post🤷‍♀️🤷‍♀️
+    </h1>
+</div>
+{% endfor  %}
 {% endblock content %}
