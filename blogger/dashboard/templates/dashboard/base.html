@@ -16,20 +16,20 @@
 <body>
 
     {% include 'base/header.html' %}
-    {% if messages %}
-    {% for message in messages %}
-    <div class=" container alert alert-warning alert-dismissible fade show" role="alert">
-        {{message}}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    {% endfor %}
-    {% endif %}
-
+    
     <div class="row w-100 px-3">
         <div class="col-md-2 p-2 border">
             {% include 'dashboard/sidebar.html' %}
         </div>
         <div class="col-md">
+            {% if messages %}
+            {% for message in messages %}
+            <div class=" container alert alert-warning alert-dismissible fade show" role="alert">
+                {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
             {% block content %}
             {% endblock content %}
         </div>

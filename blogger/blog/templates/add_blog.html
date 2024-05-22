@@ -43,6 +43,7 @@
                     </select>
                 </div> -->
                 <div class="row my-2 align-items-center">
+                    <label for="select_category" class="form-text">Select Category<span class="text-danger">*</span></label>
                     <div class="col">
                         {{form.category}}
                     </div>
@@ -56,12 +57,15 @@
                     </div>
                 </div>
                 <div class="my-2">
+                    <label for="title" class="form-text">Title<span class="text-danger">*</span></label>
                     {{form.title}}
                 </div>
                 <div class="my-2">
+                    <label for="image" class="form-text">Image<span class="text-danger">*</span></label>
                     {{form.thumbnail_image}}
                 </div>
                 <div class="my-2">
+                    <label for="#" class="form-text">Content<span class="text-danger">*</span></label>
                     {{form.body}}
                 </div>
                 {{form.media}}

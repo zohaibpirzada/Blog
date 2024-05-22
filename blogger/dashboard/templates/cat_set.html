@@ -5,7 +5,7 @@
 
 {% block content %}
 
-<h1>{{cat_name}}</h1>
+<h1>{{cat.name}}</h1>
 {% for posts in post %}
 <div class="alert alert-warning" role="alert">
     <div class="row">
@@ -24,9 +24,9 @@
             </div>
             <hr class="m-0">
             <div class="w-100 row">
-                <div class="col-auto form-text">Edit</div>
+                <div class="col-auto form-text "><a class="text-dark" style="text-decoration: none;" href="{% url 'edit_post' posts.id %}">Edit</a></div>
                 <div class="col-auto form-text">Preview</div>
-                <div class="col-auto form-text text-danger">Delete</div>
+                <div class="col-auto form-text text-danger"><a class="text-danger" style="text-decoration: none;" href="{% url 'delete_post' posts.id %}">Delete</a></div>
             </div>
         </div>
     </div>

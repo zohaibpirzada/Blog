@@ -3,6 +3,7 @@ from django import forms
 from .models import Profile, Blog, Category
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from ckeditor.widgets import CKEditorWidget
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(label='', widget=forms.TextInput(attrs={'class' : 'form-control', 'placeholder' : 'Email'}))
@@ -45,15 +46,15 @@ class ProfilePicForm(forms.ModelForm):
         fields = ['profile_pic']
 
 class Add_blog(forms.ModelForm):
-    title = forms.CharField(label='', widget=forms.TextInput(attrs={'class' : 'form-control', 'placeholder' : 'Post Title'}), required=True)
+    title = forms.CharField(label='', widget=forms.TextInput(attrs={'class' : 'form-control',"id" : 'title', 'placeholder' : 'Post Title'}), required=True)
     thumbnail_image = forms.ImageField(label='', widget=forms.FileInput(attrs={'class' : 'form-control', 'id' : 'image'}))
-    
+    body = forms.CharField(widget=CKEditorWidget(), required=True)
     class Meta:
         model = Blog
         fields = ['title',"category", 'thumbnail_image', 'body']
         labels = {'category': '', 'body' : ''}
         # exclude = ['user',]
-        widgets = {'category': forms.Select(attrs={'class': 'form-select'}),}
+        widgets = {'category': forms.Select(attrs={'class': 'form-select', "id" : 'select_category'}),}
         
 class CategoryForm(forms.ModelForm):
     class Meta:

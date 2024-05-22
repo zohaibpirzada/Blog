@@ -29,7 +29,7 @@
             <div class="w-100 row">
                 <div class="col-auto form-text"><a class="text-dark text-decoration-none" href="{% url 'edit_post' post.id %}">Edit</a></div>
                 <div class="col-auto form-text">Preview</div>
-                <div class="col-auto form-text text-danger">Delete</div>
+                <div class="col-auto form-text "><a class="text-danger " style="text-decoration: none;" href="{% url 'delete_post' post.id %}">Delete</a></div>
             </div>
         </div>
     </div>
@@ -37,7 +37,7 @@
 {% empty %}
 <div class="w-100 text-center">
     <h1 style="text-transform:capitalize;">
-        {{select}}'s not have any Post🤷‍♀️🤷‍♀️
+        {{request.user.username}}'s not have any Post🤷‍♀️🤷‍♀️
     </h1>
 </div>
 {% endfor  %}

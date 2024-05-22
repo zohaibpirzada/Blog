@@ -83,7 +83,11 @@ def add_blog(request):
             post =form.save(commit=False)  
             post.user = request.user
             post.save()  
-            return redirect('index')
+            messages.success(request, "your post successfuly added!!")
+            return redirect('all_post')
+        else:
+            messages.success(request, "You miss the fill content!!")
+            return redirect(request.META.get('HTTP_REFERER'))
     else:
         form = Add_blog()
         cat_form = CategoryForm()

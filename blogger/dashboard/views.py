@@ -26,8 +26,7 @@ def all_post(request):
             if select != None:
                 all_post = Blog.objects.filter(user__username=select).order_by('-pub_date')
             if select == 'All':
-                all_post = Blog.objects.order_by('-pub_date')
-
+                return redirect('all_post')
         return render(request, 'all_post.html', {"all_post" : all_post, 'filter_user' : filter_user, 'select' : select})
     else:
         messages.success(request, 'Your are not team staff')
@@ -113,9 +112,10 @@ def edit_category(request, cat_id):
         messages.success(request, 'Your are not team staff')
         return redirect('index')
 
-def cat_set(request, cat_name):
-    post_get = Blog.objects.filter(category__name=cat_name.capitalize())
-    return render(request, 'cat_set.html', {'post' : post_get, "cat_name" : cat_name.capitalize()})
+def cat_set(request, cat_id):
+    cat = Category.objects.get(id=cat_id)
+    post_get = Blog.objects.filter(category__id=cat_id)
+    return render(request, 'cat_set.html', {'post' : post_get, "cat" : cat})
 
 
 def edit_post(request, post_id):
@@ -141,3 +141,15 @@ def edit_post(request, post_id):
     else:
         messages.success(request, 'Your are not team staff')
         return redirect('index')
+    
+def delete_post(request, post_id):
+    log_user = get_object_or_404(User, id=request.user.id)
+    profile = get_object_or_404(Profile, user=log_user)
+    if profile.staff == 'Approved':
+        post = Blog.objects.get(id=post_id)
+        if request.user.id == post.user.id or request.user.id == 1:
+            post.delete()
+            return redirect(request.META.get('HTTP_REFERER'))
+    else:
+        messages.success(request,'That is not you post')
+        return redirect('all_post')
