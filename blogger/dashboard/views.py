@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages 
 from django.contrib.auth.models import User
 from blog.models import Profile, Category, Blog
-from .form import CategoryForm
+from .form import CategoryForms
 from blog.form import Add_blog, CategoryForm
 
 
@@ -20,7 +20,15 @@ def all_post(request):
     profile = get_object_or_404(Profile, user=user)
     if profile.staff == 'Approved':
         all_post = Blog.objects.order_by('-pub_date')
-        return render(request, 'all_post.html', {"all_post" : all_post})
+        filter_user = User.objects.filter(profile__staff='Approved')
+        if request.method == "GET":
+            select = request.GET.get('filter')
+            if select != None:
+                all_post = Blog.objects.filter(user__username=select).order_by('-pub_date')
+            if select == 'All':
+                all_post = Blog.objects.order_by('-pub_date')
+
+        return render(request, 'all_post.html', {"all_post" : all_post, 'filter_user' : filter_user, 'select' : select})
     else:
         messages.success(request, 'Your are not team staff')
         return redirect('index')
@@ -28,7 +36,7 @@ def my_post(request):
     user = get_object_or_404(User, id=request.user.id)
     profile = get_object_or_404(Profile, user=user)
     if profile.staff == 'Approved':
-        return render(request, 'my_post.html')
+        return render(request, 'my_post.html',)
     else:
         messages.success(request, 'Your are not team staff')
         return redirect('index')
@@ -70,14 +78,14 @@ def add_category(request):
         user = User.objects.exclude(id=request.user.id).filter(profile__staff='Approved')
         if request.method == 'POST':
             cat_user = request.POST.get('cat_user')
-            form = CategoryForm(request.POST or None, request.FILES or None)
+            form = CategoryForms(request.POST or None, request.FILES or None)
             if form.is_valid():
                 post = form.save(commit=False)
                 post.user_id = cat_user
                 post.save()
                 return redirect('all_categories')
         else:
-            form = CategoryForm()
+            form = CategoryForms()
         return render(request, 'add_category.html', {'users' : user, 'form' : form})
     else:
         messages.success(request, 'Your are not team staff')
