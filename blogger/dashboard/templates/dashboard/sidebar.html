@@ -45,8 +45,8 @@
                 User
             </div>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Add User</a></li>
                 <li><a class="dropdown-item">All User</a></li>
+                <li><a class="dropdown-item" href="#">Add User</a></li>
             </ul>
         </div>
         <!--User Dorpdown end-->
@@ -59,13 +59,13 @@
             </div>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">View Profile</a></li>
-                <li><a class="dropdown-item">Edit Profile</a></li>
+                <li><a class="dropdown-item" href="{% url 'edit' %}">Edit Profile</a></li>
             </ul>
         </div>
         <!--Profile Dorpdown end-->
         <hr class="m-0">
-        <div class="d-flex align-items-center justify-content-between btn rounded rounded-0">
-            Logout
+        <div class="py-2 rounded rounded-0">
+            <a class="btn w-100 btn-outline-danger" href="{% url 'logout' %}">Logout</a>
         </div>
     </div>
 </div>
